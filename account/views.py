@@ -5,7 +5,6 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes,force_str
-
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 # from orders.views import user_orders
@@ -17,10 +16,7 @@ from .token import account_activation_token
 
 @login_required
 def dashboard(request):
-    orders = user_orders(request)
-    return render(request,
-                  'account/user/dashboard.html',
-                  {'section': 'profile', 'orders': orders})
+    return render(request,'account/user/dashboard.html')
 
 
 @login_required
@@ -48,8 +44,8 @@ def delete_user(request):
 
 def account_register(request):
 
-    # if request.user.is_authenticated:
-    #     return redirect('account:dashboard')
+    if request.user.is_authenticated:
+        return redirect('account:dashboard')
 
     if request.method == 'POST':
         registerForm = RegistrationForm(request.POST)
